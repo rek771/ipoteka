@@ -7,9 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 use app\models\UploadForm;
+use app\models\ListUploadForm;
 use yii\web\UploadedFile;
 use yii\data\SqlDataProvider;
 
@@ -109,6 +108,7 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
 
@@ -137,38 +137,22 @@ class SiteController extends Controller
             $model->uploadedFiles = UploadedFile::getInstances($model, 'uploadedFiles');
             if ($model->upload()) {
                 return $this->render('upload', ['model' => $model, 'success' => true]);
-                return;
             }
         }
 
         return $this->render('upload', ['model' => $model, 'success' => false]);
     }
 
-    public function actionList_upload()
+    public function actionListUpload()
     {
+        $model = new ListUploadForm();
         if (Yii::$app->request->isPost) {
-            $provider = new SqlDataProvider([
-                'sql' => 'SELECT * FROM `files` WHERE `date_upload` LIKE :date',
-                'params' => [':date' => Yii::$app->request->post("date_upload").'%'],
-                'sort' => [
-                    'attributes' => [
-                        'date_upload',
-                    ],
-                ],
-            ]);
-        } else {
-            $provider = new SqlDataProvider([
-                'sql' => 'SELECT * FROM files',
-                'sort' => [
-                    'attributes' => [
-                        'date_upload',
-                    ],
-                ],
-            ]);
+            $model->date_upload = Yii::$app->request->post("date_upload");
         }
 
-        $models = $provider->getModels();
+        $provider = $model->get_list();
 
-        return $this->render('list_upload', ['provider' => $provider], ['models' => $models]);
+
+        return $this->render('list_upload', ['model' => $model, 'provider' => $provider]);
     }
 }

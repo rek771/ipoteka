@@ -2,7 +2,6 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use dosamigos\datetimepicker\DateTimePicker;
-use yii\widgets\ActiveForm;
 ?>
 
 
@@ -11,7 +10,7 @@ use yii\widgets\ActiveForm;
 ]);
 ?>
 
-<?= Html::beginForm(['site/list-upload', 'date_upload' => $date_upload], 'post', ['enctype' => 'multipart/form-data']) ?>
+<?= Html::beginForm(['site/list_upload', 'date_upload' => $date_upload], 'post', ['enctype' => 'multipart/form-data']) ?>
 <div class="form-group">
     <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
         <?= Html::input('text', 'date_upload', $date_upload, ['class' => 'form-control', 'size' => '16', 'value' => '','readonly' => true]) ?>
@@ -24,21 +23,57 @@ use yii\widgets\ActiveForm;
     <?= Html::submitButton('Фильтровать', ['class' => 'btn btn-default']) ?>
 </div>
 
+
+
 <?= Html::endForm() ?>
+
+<?= DateTimePicker::widget([
+    'model' => $model,
+    'attribute' => 'created_at',
+    'language' => 'es',
+    'size' => 'ms',
+    'clientOptions' => [
+        'autoclose' => true,
+        'format' => 'dd MM yyyy - HH:ii P',
+        'todayBtn' => true
+    ]
+]);?>
+
 
 <script type="text/javascript" src="/jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.ru.js" charset="UTF-8"></script>
 <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
     $('.form_date').datetimepicker({
-        language:  'ru',
+        language:  'fr',
         weekStart: 1,
         todayBtn:  1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
         minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
         forceParse: 0
     });
 </script>

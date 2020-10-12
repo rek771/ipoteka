@@ -43,7 +43,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'upload', 'url' => ['/site/upload']],
-            ['label' => 'List Upload', 'url' => ['/site/list_upload']],
+            ['label' => 'List Upload', 'url' => ['/site/list-upload']],
         ],
     ]);
     NavBar::end();
