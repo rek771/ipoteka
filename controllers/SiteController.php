@@ -153,6 +153,6 @@ class SiteController extends Controller
         $provider = $model->get_list();
 
 
-        return $this->render('list_upload', ['model' => $model, 'provider' => $provider]);
+        return $this->render('list_upload', ['provider' => $provider]);
     }
 }
