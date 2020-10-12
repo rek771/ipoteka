@@ -146,12 +146,8 @@ class SiteController extends Controller
     public function actionListUpload()
     {
         $model = new ListUploadForm();
-        if (Yii::$app->request->isPost) {
-            $model->date_upload = Yii::$app->request->post("date_upload");
-        }
 
-        $provider = $model->get_list();
-
+        $provider = $model->getList();
 
         return $this->render('list_upload', ['provider' => $provider]);
     }

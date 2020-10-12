@@ -4,8 +4,8 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\web\UploadedFile;
-use yii\db\ActiveQuery ;
-use yii\data\ActiveDataProvider ;
+use yii\db\ActiveQuery;
+use yii\data\ActiveDataProvider;
 use app\models\Files;
 
 
@@ -24,19 +24,12 @@ class ListUploadForm extends Model
         ];
     }
 
-    public function get_list()
+    public function getList()
     {
-        if ($this->date_upload != null) {
-            $files = Files::find()
-                ->where(['like', 'date_upload', $this->date_upload])
-                ->orderBy('date_upload');
-//            $query = (new ActiveQuery())->from('files')->where(['like', 'date_upload', $this->from_date]);
-        } else {
-            $files = Files::find()
-                ->indexBy('id');
-        }
+        $files = Files::find()
+            ->indexBy('id');
 
-        $provider = new ActiveDataProvider([
+        return new ActiveDataProvider([
             'query' => $files,
             'sort' => [
                 'defaultOrder' => [
@@ -44,7 +37,5 @@ class ListUploadForm extends Model
                 ]
             ],
         ]);
-
-        return $provider;
     }
 }
